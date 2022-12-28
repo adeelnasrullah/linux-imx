@@ -256,6 +256,9 @@ static int mxc_set_oneshot(struct clock_event_device *ced)
  */
 static irqreturn_t mxc_timer_interrupt(int irq, void *dev_id)
 {
+	
+	printk(KERN_INFO "Handle kernel periodic timer ?");
+	
 	struct clock_event_device *ced = dev_id;
 	struct imx_timer *imxtm = to_imx_timer(ced);
 	uint32_t tstat;
