@@ -16,3 +16,39 @@ several of them using the Restructured Text markup notation.
 Please read the Documentation/process/changes.rst file, as it contains the
 requirements for building and running the kernel, and information about
 the problems which may result by upgrading your kernel.
+
+
+Customizing Linux Kernel for IMX6Q with Yocto Project
+=====================================================
+
+This repo is based on i.MX Linux 5.15.71_2.2.0 released Dec 2022. Follow
+these steps to compile the customized kernel for your project.
+
+1- Setup Yocto project for for your i.MX device using "i.MX Yocto Project 
+   User's Guide (Rev. LF5.15.71_2.2.0)" upto step#5.1 in the guide. This 
+   downloads all the layers that you may need to compile an embedded linux 
+   image for your i.MX device.
+2- Fork the linux-imx repo maintained by nxp: 
+   https://github.com/nxp-imx/linux-imx and checkout the commit
+   "3313732e9984cb8a6b10a9085c7e18d58e770d56" which corresponds to 
+   i.MX Linux 5.15.71_2.2.0 (Kirkstone). Now, you can make the desired 
+   changes to the project.
+3- Yocto project contains several layers with components from various
+   sources that will be compiled into the final image. The base linux 
+   kernel with i.MX related drivers is compiled by the meta-imx/meta-bsp
+   layer. The corresponding recipe file is found at: <parent directory>/
+   sources/meta-imx/meta-bsp/recipes-kernel/linux/linx-imx_5.15.bb . 
+   Locate this file.
+4- The "KERNEL_SRC" variable (at line number 21) points to the linux-imx
+   repository that will be used to download and compile the base linux 
+   kernel for i.MX machine. Modify it to point to your forked repository.
+5- The "SRCREV" variable (at line number 25) contains the commit ID that
+    will be checked out before the project is compiled. Replace it with 
+    the commit ID that refers to your changes.
+6- Compile the kernel using the following command: 
+   MACHINE=imx6qsabresd bitbake linux-imx . You can replace the MACHINE
+   name with your own boards name. If successful your project will now 
+   build with the customized linux kernel.
+7- You can continue to build the complete image by following steps 5.2 
+   and onwards in the "i.MX Yocto Project User's Guide 
+   (Rev. LF5.15.71_2.2.0)"
