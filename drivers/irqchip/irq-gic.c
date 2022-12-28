@@ -338,6 +338,8 @@ static void __exception_irq_entry gic_handle_irq(struct pt_regs *regs)
 	u32 irqstat, irqnr;
 	struct gic_chip_data *gic = &gic_data[0];
 	void __iomem *cpu_base = gic_data_cpu_base(gic);
+	
+	printk(KERN_INFO "Hello! Welcome to IRQ Entry Point ?");
 
 	do {
 		irqstat = readl_relaxed(cpu_base + GIC_CPU_INTACK);
@@ -889,6 +891,8 @@ static __init void gic_smp_init(void)
  */
 void gic_send_sgi(unsigned int cpu_id, unsigned int irq)
 {
+	printk(KERN_INFO "Hello! Welcome to IRQ Routing Point ?");
+	
 	BUG_ON(cpu_id >= NR_GIC_CPU_IF);
 	cpu_id = 1 << cpu_id;
 	/* this always happens on GIC0 */
