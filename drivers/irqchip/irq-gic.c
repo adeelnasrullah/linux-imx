@@ -339,7 +339,7 @@ static void __exception_irq_entry gic_handle_irq(struct pt_regs *regs)
 	struct gic_chip_data *gic = &gic_data[0];
 	void __iomem *cpu_base = gic_data_cpu_base(gic);
 	
-	printk(KERN_INFO "Hello! Welcome to IRQ Entry Point ?");
+	// printk(KERN_INFO "Hello! Welcome to IRQ Entry Point ?");
 
 	do {
 		irqstat = readl_relaxed(cpu_base + GIC_CPU_INTACK);
