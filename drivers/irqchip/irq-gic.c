@@ -891,7 +891,7 @@ static __init void gic_smp_init(void)
  */
 void gic_send_sgi(unsigned int cpu_id, unsigned int irq)
 {
-	printk(KERN_INFO "Hello! Welcome to IRQ Routing Point ?");
+	// printk(KERN_INFO "Hello! Welcome to IRQ Routing Point ?");
 	
 	BUG_ON(cpu_id >= NR_GIC_CPU_IF);
 	cpu_id = 1 << cpu_id;
