@@ -416,7 +416,7 @@ static nokprobe_inline
 int call_undef_hook(struct pt_regs *regs, unsigned int instr)
 {
 
-	printk(KERN_INFO "Hello world, entry to undefined Instruction ???");
+	// printk(KERN_INFO "Hello world, entry to undefined Instruction ???");
 
 	struct undef_hook *hook;
 	unsigned long flags;
