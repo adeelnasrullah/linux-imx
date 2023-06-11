@@ -49,6 +49,7 @@ static const char *handler[]= {
 };
 
 void *vectors_page;
+static uint32_t r_temp = 0;
 
 #ifdef CONFIG_DEBUG_USER
 unsigned int user_debug;
@@ -416,7 +417,8 @@ static nokprobe_inline
 int call_undef_hook(struct pt_regs *regs, unsigned int instr)
 {
 
-	// printk(KERN_INFO "Hello world, entry to undefined Instruction ???");
+	// not working
+	pr_info("Hello world, entry to undefined Instruction ???");
 
 	struct undef_hook *hook;
 	unsigned long flags;
@@ -435,7 +437,8 @@ int call_undef_hook(struct pt_regs *regs, unsigned int instr)
 asmlinkage void do_undefinstr(struct pt_regs *regs)
 {
 
-	printk(KERN_INFO "Hello! Welcome to udefined Instruction Exception ? ");
+	asm volatile("mrc p15, 0, %0, c9, c13, 0" : "=r"(r_temp) );
+	printk(KERN_INFO "current cpu cycle count: %u", r_temp);
 
 	unsigned int instr;
 	void __user *pc;
