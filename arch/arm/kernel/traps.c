@@ -49,7 +49,6 @@ static const char *handler[]= {
 };
 
 void *vectors_page;
-static uint32_t r_temp = 0;
 
 #ifdef CONFIG_DEBUG_USER
 unsigned int user_debug;
@@ -437,6 +436,7 @@ int call_undef_hook(struct pt_regs *regs, unsigned int instr)
 asmlinkage void do_undefinstr(struct pt_regs *regs)
 {
 
+	uint32_t r_temp = 0;
 	asm volatile("mrc p15, 0, %0, c9, c13, 0" : "=r"(r_temp) );
 	printk(KERN_INFO "current cpu cycle count: %u", r_temp);
 

@@ -624,6 +624,10 @@ static void ipi_complete(unsigned int cpu)
  */
 static void do_handle_IPI(int ipinr)
 {
+	static uint32_t r_temp, s_temp;
+	asm volatile("mrrc p15, 0, %0, %1, c14" : "=r"(r_temp), "=r"(s_temp) );
+	printk(KERN_INFO "Physical Counter [IPI END]: %u, %u", r_temp, s_temp);
+
 	unsigned int cpu = smp_processor_id();
 
 	if ((unsigned)ipinr < NR_IPI)
@@ -697,6 +701,10 @@ static irqreturn_t ipi_handler(int irq, void *data)
 
 static void smp_cross_call(const struct cpumask *target, unsigned int ipinr)
 {
+	static uint32_t r_temp, s_temp;
+	asm volatile("mrrc p15, 0, %0, %1, c14" : "=r"(r_temp), "=r"(s_temp) );
+	printk(KERN_INFO "Physical counter [IPI start]: %u, %u", r_temp, s_temp);
+
 	trace_ipi_raise_rcuidle(target, ipi_types[ipinr]);
 	__ipi_send_mask(ipi_desc[ipinr], target);
 }
