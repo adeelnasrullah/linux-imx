@@ -1,0 +1,9 @@
+#
+# imx6q pmu
+#
+
+menu "In tree module for enabling user access to ARM PMU"
+config USER_ACCESS_CYCLE_COUNTER
+    tristate "Enable user mode access to processor cycle counters"
+    default m
+endmenu
