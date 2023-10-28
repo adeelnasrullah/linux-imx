@@ -25,6 +25,14 @@ enable_cpu_counters(void* data)
         printk(KERN_INFO "[" DRVR_NAME "] enabling user-mode PMU access on CPU #%d",
                 smp_processor_id());
 
+	uint32_t sctlr=0;
+	/* enabling branch predictions */
+	asm volatile("mrc p15, 0, %0, c1, c0, 0" : "=r"(sctlr));
+	printk(KERN_INFO "SCTLR before: %x", sctlr);
+	sctlr |= 0x800;
+	asm volatile("mcr p15, 0, %0, c1, c0, 0" :: "r"(sctlr));
+        printk(KERN_INFO "SCTLR before: %x", sctlr);
+
         /* Enable user-mode access to counters. */
         asm volatile("mcr p15, 0, %0, c9, c14, 0" :: "r"(1));
         /* Program PMU and enable all counters */
